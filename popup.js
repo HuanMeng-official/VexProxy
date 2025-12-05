@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (enabled) {
             mainCard.classList.add('active');
-            statusTitle.textContent = "系统代理已开启";
+            statusTitle.textContent = "代理已开启";
             statusDetail.textContent = `${protocolSelect.value.toUpperCase()}://${hostInput.value}:${portInput.value}`;
             btnText.textContent = "断开连接";
             actionBtn.classList.add('btn-disconnect');
