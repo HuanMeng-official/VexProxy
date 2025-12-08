@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function checkConflict() {
         chrome.proxy.settings.get({ 'incognito': false }, (config) => {
             if (config.levelOfControl === 'controlled_by_other_extension') {
-                showError("警告：SwichyOmega 等插件正在占用代理权限！");
+                showError("警告：代理权限被占用！");
                 actionBtn.disabled = true;
                 actionBtn.style.opacity = "0.5";
                 btnText.textContent = "权限被占用";
