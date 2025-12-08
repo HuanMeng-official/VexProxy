@@ -1,67 +1,69 @@
 # VexProxy
 
-一个基于 **Chrome Manifest V3** 规范开发的轻量级代理控制扩展。
+A lightweight proxy control extension built on the **Chrome Manifest V3** specification.
 
-## ✨ 功能特性
+[English](./README.md) | [中文](./README/README_zh.md)
 
-*   **⚡️ 现代内核**：完全基于 Chrome MV3 标准开发，性能更高，更安全。
-*   **🎨 极简美学**：
-    *   **浅色模式**：纯白极简风格，清爽干净。
-    *   **深色模式**：完美适配系统暗色模式。
-*   **🛡 智能防呆**：
-    *   内置冲突检测：自动识别并提示是否被 SwitchyOmega 等插件抢占权限。
-    *   自动绕过本地：默认忽略 `localhost`、`127.0.0.1` 和局域网流量，防止开发环境死循环。
-*   **💾 自动保存**：记住你上次输入的 IP 和端口，无需重复配置。
-*   **🔌 双协议支持**：完美支持 **HTTP** 和 **SOCKS5** 代理模式。
+## ✨ Features
 
-## 📂 项目结构
+*   **⚡️ Modern Core**: Built entirely on the Chrome MV3 standard for enhanced performance and security.
+*   **🎨 Minimalist Aesthetics**:
+    *   **Light Mode**: Pure white minimalist style, clean and refreshing.
+    *   **Dark Mode**: Perfectly adapts to the system's dark mode.
+*   **🛡 Smart Safeguards**:
+    *   **Built-in Conflict Detection**: Automatically identifies and alerts if proxy permissions are preempted by other extensions like SwitchyOmega.
+    *   **Automatic Local Bypass**: Ignores `localhost`, `127.0.0.1`, and LAN traffic by default to prevent development environment loops.
+*   **💾 Auto-Save**: Remembers your last input IP and port, eliminating the need for repetitive configuration.
+*   **🔌 Dual Protocol Support**: Perfectly supports both **HTTP** and **SOCKS5** proxy modes.
 
-在使用前，请确保你的项目目录包含以下文件：
+## 📂 Project Structure
+
+Before using, please ensure your project directory contains the following files:
 
 ```text
 .
-├── manifest.json   # 扩展的配置文件
-├── popup.html      # 用户界面 (HTML + CSS)
-└── popup.js        # 核心逻辑 (JS)
+├── manifest.json   # Extension configuration file
+├── popup.html      # User Interface (HTML + CSS)
+└── popup.js        # Core Logic (JS)
 ```
 
-## 🛠 安装指南
+## 🛠 Installation Guide
 
-1.  下载本项目代码，放入一个文件夹（例如命名为 `clash-extension`）。
-2.  在 Chrome 浏览器地址栏输入 `chrome://extensions/` 并回车。
-3.  打开右上角的 **"开发者模式" (Developer mode)** 开关。
-4.  点击左上角的 **"加载已解压的扩展程序" (Load unpacked)**。
-5.  选择第 1 步中的文件夹。
-6.  安装成功！建议点击浏览器右上角的拼图图标，将本插件**固定 (Pin)** 到工具栏。
+1.  Download the source code and place it in a folder (e.g., named `vex`).
+2.  Enter `chrome://extensions/` in your Chrome address bar and press Enter.
+3.  Toggle on the **"Developer mode"** switch in the top right corner.
+4.  Click **"Load unpacked"** in the top left corner.
+5.  Select the folder from Step 1.
+6.  Installation successful! It is recommended to click the puzzle icon in the browser's top right corner to **Pin** this extension to the toolbar.
 
-## 📖 使用说明
+## 📖 Usage
 
-### 配合 Clash 使用
+### Using with Clash
 
-1.  确保你的电脑上已经运行了 **Clash** (Clash for Windows / ClashX / Clash Verge)。
-2.  点击浏览器右上角的插件图标。
-3.  **配置参数**：
-    *   **协议**：推荐选择 `SOCKS5`（解析更准确，支持 UDP）。
-    *   **服务器 IP**：默认为 `127.0.0.1`。
-    *   **端口**：Clash 默认通常为 `7890`（SOCKS5 有时是 7891，具体看你的 Clash 设置中的 Mixed Port）。
-4.  点击 **“立即连接”**。
-    *   连接成功：图标变绿，带有呼吸灯动画。
-    *   断开连接：再次点击按钮即可恢复直连。
+1.  Ensure **Clash** (Clash for Windows / ClashX / Clash Verge) is running on your computer.
+2.  Click the extension icon in the browser toolbar.
+3.  **Configure Parameters**:
+    *   **Protocol**: Recommended `SOCKS5` (more accurate resolution, supports UDP).
+    *   **Server IP**: Defaults to `127.0.0.1`.
+    *   **Port**: Clash usually defaults to `7890` (SOCKS5 is sometimes 7891; check the "Mixed Port" in your Clash settings).
+4.  Click **"Connect Now"**.
+    *   **Connected**: The icon turns green with a breathing animation.
+    *   **Disconnected**: Click the button again to return to direct connection.
 
-## ❓ 常见问题 (FAQ)
+## ❓ FAQ
 
-### Q: 点击连接后提示“权限被占用”？
-**A:** Chrome 限制同一时间只能有一个扩展控制代理设置。如果你安装了 **SwitchyOmega**、**Proxy Switcher** 或其他 VPN 插件，请先在扩展管理页面将它们**禁用 (Disable)**，然后刷新本插件即可。
+### Q: It says "Permission Controlled by Other Extensions" after clicking connect?
+**A:** Chrome limits control of proxy settings to one extension at a time. If you have installed **SwitchyOmega**, **Proxy Switcher**, or other VPN extensions, please **Disable** them in the extension management page first, then refresh this extension.
 
-### Q: 无法访问 `localhost`？
-**A:** 别担心，本插件内置了白名单机制，`localhost`、`127.0.0.1` 和 `192.168.*` 等局域网地址会自动直连，不会经过代理，不影响本地开发。
+### Q: Cannot access `localhost`?
+**A:** Don't worry. This extension has a built-in whitelist mechanism. Local addresses such as `localhost`, `127.0.0.1`, and `192.168.*` are automatically bypassed (direct connection) and will not affect local development.
 
-## 🔒 隐私声明
+## 🔒 Privacy Policy
 
-本扩展 **不收集** 任何用户数据。
-*   `storage` 权限：仅用于在本地浏览器缓存您填写的 IP 和端口。
-*   `proxy` 权限：仅用于调用 Chrome API 设置浏览器代理。
+This extension **does not collect** any user data.
+*   `storage` permission: Used only to locally cache the IP and Port you entered in the browser.
+*   `proxy` permission: Used only to invoke the Chrome API to set the browser proxy.
 
-## 📄 许可证
+## 📄 License
 
 MIT License
