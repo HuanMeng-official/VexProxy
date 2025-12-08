@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 
 <head>
     <meta charset="UTF-8">
@@ -278,12 +278,12 @@
                         d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z" />
                 </svg>
             </div>
-            <h2 class="status-title" id="status-title">未连接</h2>
-            <div class="status-subtitle" id="status-detail">点击下方按钮开启代理</div>
+            <h2 class="status-title" id="status-title" data-i18n="statusTitle">未连接</h2>
+            <div class="status-subtitle" id="status-detail" data-i18n="statusSubtitle">点击下方按钮开启代理</div>
         </div>
 
         <div class="form-group">
-            <label class="form-label">协议 / PROTOCOL</label>
+            <label class="form-label" data-i18n="protocolLabel">协议 / PROTOCOL</label>
             <div class="input-wrapper">
                 <select id="protocol">
                     <option value="socks5">SOCKS5</option>
@@ -298,7 +298,7 @@
         </div>
 
         <div class="form-group">
-            <label class="form-label">主机 / HOST IP</label>
+            <label class="form-label" data-i18n="hostLabel">主机 / HOST IP</label>
             <div class="input-wrapper">
                 <input type="text" id="host" value="127.0.0.1" placeholder="127.0.0.1">
                 <!-- Server SVG -->
@@ -310,7 +310,7 @@
         </div>
 
         <div class="form-group">
-            <label class="form-label">端口 / PORT</label>
+            <label class="form-label" data-i18n="portLabel">端口 / PORT</label>
             <div class="input-wrapper">
                 <input type="number" id="port" value="7890" placeholder="7890">
                 <!-- 闪电 SVG -->
@@ -321,7 +321,7 @@
         </div>
 
         <button id="action-btn">
-            <span id="btn-text">立即连接</span>
+            <span id="btn-text" data-i18n="connectButton">立即连接</span>
         </button>
 
     </div>

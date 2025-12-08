@@ -11,6 +11,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const statusDetail = document.getElementById('status-detail');
     const errorMsg = document.getElementById('error-msg');
 
+    // 初始化国际化
+    function initI18n() {
+        // 设置 HTML lang 属性
+        const uiLanguage = chrome.i18n.getUILanguage();
+        document.documentElement.lang = uiLanguage;
+
+        // 遍历所有带有 data-i18n 属性的元素并设置文本
+        document.querySelectorAll('[data-i18n]').forEach(element => {
+            const messageId = element.getAttribute('data-i18n');
+            element.textContent = chrome.i18n.getMessage(messageId);
+        });
+    }
+    initI18n();
+
     let isProxyOn = false;
 
     // 检查冲突
@@ -45,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const scheme = protocolSelect.value;
 
         if (!host || isNaN(port)) {
-            showError("请检查 IP 和端口是否正确");
+            showError(chrome.i18n.getMessage('checkError'));
             return;
         }
 
@@ -57,11 +71,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
 
-        btnText.textContent = "连接中...";
+        btnText.textContent = chrome.i18n.getMessage('connecting');
 
         chrome.proxy.settings.set({ value: config, scope: 'regular' }, () => {
             if (chrome.runtime.lastError) {
-                showError("设置失败: " + chrome.runtime.lastError.message);
+                showError(chrome.i18n.getMessage('setupFailed') + chrome.runtime.lastError.message);
                 updateUIState(false);
                 return;
             }
@@ -86,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         chrome.proxy.settings.set({ value: config, scope: 'regular' }, () => {
             if (chrome.runtime.lastError) {
-                showError("关闭失败: " + chrome.runtime.lastError.message);
+                showError(chrome.i18n.getMessage('closeFailed') + chrome.runtime.lastError.message);
                 return;
             }
             chrome.storage.local.set({ proxyEnabled: false });
@@ -99,9 +113,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (enabled) {
             mainCard.classList.add('active');
-            statusTitle.textContent = "代理已开启";
+            statusTitle.textContent = chrome.i18n.getMessage('proxyEnabled');
             statusDetail.textContent = `${protocolSelect.value.toUpperCase()}://${hostInput.value}:${portInput.value}`;
-            btnText.textContent = "断开连接";
+            btnText.textContent = chrome.i18n.getMessage('disconnect');
             actionBtn.classList.add('btn-disconnect');
 
             hostInput.disabled = true;
@@ -109,9 +123,9 @@ document.addEventListener('DOMContentLoaded', () => {
             protocolSelect.disabled = true;
         } else {
             mainCard.classList.remove('active');
-            statusTitle.textContent = "未连接代理";
-            statusDetail.textContent = "所有流量直接通过本地网络传输";
-            btnText.textContent = "立即连接";
+            statusTitle.textContent = chrome.i18n.getMessage('proxyDisabled');
+            statusDetail.textContent = chrome.i18n.getMessage('directTraffic');
+            btnText.textContent = chrome.i18n.getMessage('connectButton');
             actionBtn.classList.remove('btn-disconnect');
 
             hostInput.disabled = false;
@@ -137,10 +151,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function checkConflict() {
         chrome.proxy.settings.get({ 'incognito': false }, (config) => {
             if (config.levelOfControl === 'controlled_by_other_extension') {
-                showError("警告：代理权限被占用！");
+                showError(chrome.i18n.getMessage('warningConflict'));
                 actionBtn.disabled = true;
                 actionBtn.style.opacity = "0.5";
-                btnText.textContent = "权限被占用";
+                btnText.textContent = chrome.i18n.getMessage('permissionOccupied');
             }
         });
     }

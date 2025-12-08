@@ -1,0 +1,78 @@
+{
+  "extensionName": {
+    "message": "VexProxy",
+    "description": "Extension name"
+  },
+  "extensionDescription": {
+    "message": "A simple proxy manager",
+    "description": "Extension description"
+  },
+  "defaultTitle": {
+    "message": "Set Proxy",
+    "description": "Default title for browser action"
+  },
+  "statusTitle": {
+    "message": "Not Connected",
+    "description": "Status title when proxy is off"
+  },
+  "statusSubtitle": {
+    "message": "Click the button below to enable proxy",
+    "description": "Status subtitle when proxy is off"
+  },
+  "protocolLabel": {
+    "message": "协议 / PROTOCOL",
+    "description": "Label for protocol select"
+  },
+  "hostLabel": {
+    "message": "主机 / HOST IP",
+    "description": "Label for host input"
+  },
+  "portLabel": {
+    "message": "端口 / PORT",
+    "description": "Label for port input"
+  },
+  "connectButton": {
+    "message": "Connect Now",
+    "description": "Connect button text"
+  },
+  "checkError": {
+    "message": "Please check if IP and port are correct",
+    "description": "Error message for invalid input"
+  },
+  "connecting": {
+    "message": "Connecting...",
+    "description": "Button text when connecting"
+  },
+  "setupFailed": {
+    "message": "Setup failed: ",
+    "description": "Error message when proxy setup fails"
+  },
+  "closeFailed": {
+    "message": "Close failed: ",
+    "description": "Error message when proxy close fails"
+  },
+  "proxyEnabled": {
+    "message": "Proxy Enabled",
+    "description": "Status title when proxy is on"
+  },
+  "disconnect": {
+    "message": "Disconnect",
+    "description": "Button text to disconnect"
+  },
+  "proxyDisabled": {
+    "message": "Proxy Not Connected",
+    "description": "Status title when proxy is off"
+  },
+  "directTraffic": {
+    "message": "All traffic goes directly through local network",
+    "description": "Status detail when proxy is off"
+  },
+  "warningConflict": {
+    "message": "Warning: Proxy permission occupied!",
+    "description": "Warning when proxy controlled by other extension"
+  },
+  "permissionOccupied": {
+    "message": "Permission Occupied",
+    "description": "Button text when permission occupied"
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "extensionName": {
+    "message": "VexProxy",
+    "description": "扩展名称"
+  },
+  "extensionDescription": {
+    "message": "简单的代理管理器",
+    "description": "扩展描述"
+  },
+  "defaultTitle": {
+    "message": "设置代理",
+    "description": "浏览器操作的默认标题"
+  },
+  "statusTitle": {
+    "message": "未连接",
+    "description": "代理关闭时的状态标题"
+  },
+  "statusSubtitle": {
+    "message": "点击下方按钮开启代理",
+    "description": "代理关闭时的状态副标题"
+  },
+  "protocolLabel": {
+    "message": "协议 / PROTOCOL",
+    "description": "协议选择标签"
+  },
+  "hostLabel": {
+    "message": "主机 / HOST IP",
+    "description": "主机输入标签"
+  },
+  "portLabel": {
+    "message": "端口 / PORT",
+    "description": "端口输入标签"
+  },
+  "connectButton": {
+    "message": "立即连接",
+    "description": "连接按钮文本"
+  },
+  "checkError": {
+    "message": "请检查 IP 和端口是否正确",
+    "description": "无效输入的错误消息"
+  },
+  "connecting": {
+    "message": "连接中...",
+    "description": "连接时的按钮文本"
+  },
+  "setupFailed": {
+    "message": "设置失败: ",
+    "description": "代理设置失败时的错误消息"
+  },
+  "closeFailed": {
+    "message": "关闭失败: ",
+    "description": "代理关闭失败时的错误消息"
+  },
+  "proxyEnabled": {
+    "message": "代理已开启",
+    "description": "代理开启时的状态标题"
+  },
+  "disconnect": {
+    "message": "断开连接",
+    "description": "断开连接的按钮文本"
+  },
+  "proxyDisabled": {
+    "message": "未连接代理",
+    "description": "代理关闭时的状态标题"
+  },
+  "directTraffic": {
+    "message": "所有流量直接通过本地网络传输",
+    "description": "代理关闭时的状态详情"
+  },
+  "warningConflict": {
+    "message": "警告：代理权限被占用！",
+    "description": "代理被其他扩展占用时的警告"
+  },
+  "permissionOccupied": {
+    "message": "权限被占用",
+    "description": "权限被占用时的按钮文本"
+  }
+}

@@ -1,7 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "VexProxy",
+  "name": "__MSG_extensionName__",
   "version": "1.0",
+  "default_locale": "en",
   "permissions": [
     "proxy",
     "storage"
@@ -16,6 +17,6 @@
   },
   "action": {
     "default_popup": "popup.html",
-    "default_title": "Set Proxy"
+    "default_title": "__MSG_defaultTitle__"
   }
 }
