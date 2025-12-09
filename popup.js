@@ -11,13 +11,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const statusDetail = document.getElementById('status-detail');
     const errorMsg = document.getElementById('error-msg');
 
+    let latencyTag = document.getElementById('latency-tag');
+
     // 初始化国际化
     function initI18n() {
-        // 设置 HTML lang 属性
         const uiLanguage = chrome.i18n.getUILanguage();
         document.documentElement.lang = uiLanguage;
-
-        // 遍历所有带有 data-i18n 属性的元素并设置文本
         document.querySelectorAll('[data-i18n]').forEach(element => {
             const messageId = element.getAttribute('data-i18n');
             element.textContent = chrome.i18n.getMessage(messageId);
@@ -38,6 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (result.proxyEnabled) {
             updateUIState(true);
+            checkProxyConnectivity(true);
         } else {
             updateUIState(false);
         }
@@ -71,41 +71,103 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
 
-        btnText.textContent = chrome.i18n.getMessage('connecting');
+        setLoadingState(true);
 
-        chrome.proxy.settings.set({ value: config, scope: 'regular' }, () => {
+        chrome.proxy.settings.set({ value: config, scope: 'regular' }, async () => {
             if (chrome.runtime.lastError) {
                 showError(chrome.i18n.getMessage('setupFailed') + chrome.runtime.lastError.message);
-                updateUIState(false);
+                setLoadingState(false);
                 return;
             }
 
-            chrome.storage.local.set({
-                proxyHost: host,
-                proxyPort: port,
-                proxyProtocol: scheme,
-                proxyEnabled: true
-            });
+            // 测试连接
+            try {
+                const latency = await checkProxyConnectivity(false);
+                chrome.storage.local.set({
+                    proxyHost: host,
+                    proxyPort: port,
+                    proxyProtocol: scheme,
+                    proxyEnabled: true
+                });
 
-            setTimeout(() => {
                 updateUIState(true);
-            }, 200);
+                updateLatencyUI(latency);
 
-            checkConflict();
+            } catch (error) {
+                console.error("Proxy connection failed:", error);
+                disableProxy(true);
+                showError(chrome.i18n.getMessage('testFailedReverting'));
+                updateUIState(false);
+            } finally {
+                setLoadingState(false);
+            }
         });
     }
 
-    function disableProxy() {
+    async function checkProxyConnectivity(silentMode = false) {
+        const start = Date.now();
+        const testUrl = 'http://www.google.com/generate_204'; 
+        
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 3000);
+
+        try {
+            await fetch(testUrl, {
+                method: 'HEAD',
+                mode: 'no-cors',
+                cache: 'no-store',
+                signal: controller.signal
+            });
+            clearTimeout(timeoutId);
+            return Date.now() - start;
+        } catch (error) {
+            clearTimeout(timeoutId);
+            if (!silentMode) {
+                throw error;
+            }
+        }
+    }
+
+    function updateLatencyUI(latency) {
+        if (!latencyTag) return;
+        const successText = chrome.i18n.getMessage('connectionSuccess') || 'Connected';
+        latencyTag.textContent = `● ${successText} (${latency}ms)`;
+        latencyTag.style.color = "var(--success)";
+    }
+
+    // 关闭代理
+    function disableProxy(isInternal = false) {
         const config = { mode: "direct" };
 
         chrome.proxy.settings.set({ value: config, scope: 'regular' }, () => {
             if (chrome.runtime.lastError) {
-                showError(chrome.i18n.getMessage('closeFailed') + chrome.runtime.lastError.message);
+                console.error("Close failed", chrome.runtime.lastError);
+                if (!isInternal) showError(chrome.i18n.getMessage('closeFailed'));
                 return;
             }
             chrome.storage.local.set({ proxyEnabled: false });
-            updateUIState(false);
+            
+            if (!isInternal) {
+                updateUIState(false);
+            }
         });
+    }
+
+    function setLoadingState(isLoading) {
+        if (isLoading) {
+            actionBtn.disabled = true;
+            actionBtn.style.opacity = "0.7";
+            btnText.textContent = chrome.i18n.getMessage('connecting');
+            latencyTag.textContent = "";
+            
+            // 锁定输入框
+            hostInput.disabled = true;
+            portInput.disabled = true;
+            protocolSelect.disabled = true;
+        } else {
+            actionBtn.disabled = false;
+            actionBtn.style.opacity = "1";
+        }
     }
 
     function updateUIState(enabled) {
@@ -117,6 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
             statusDetail.textContent = `${protocolSelect.value.toUpperCase()}://${hostInput.value}:${portInput.value}`;
             btnText.textContent = chrome.i18n.getMessage('disconnect');
             actionBtn.classList.add('btn-disconnect');
+            actionBtn.classList.remove('loading');
 
             hostInput.disabled = true;
             portInput.disabled = true;
@@ -127,6 +190,9 @@ document.addEventListener('DOMContentLoaded', () => {
             statusDetail.textContent = chrome.i18n.getMessage('directTraffic');
             btnText.textContent = chrome.i18n.getMessage('connectButton');
             actionBtn.classList.remove('btn-disconnect');
+
+            // 状态重置时清空延迟显示
+            if (latencyTag) latencyTag.textContent = "";
 
             hostInput.disabled = false;
             portInput.disabled = false;
@@ -140,7 +206,7 @@ document.addEventListener('DOMContentLoaded', () => {
         errorMsg.style.display = 'block';
         setTimeout(() => {
             errorMsg.style.display = 'none';
-        }, 5000);
+        }, 3000);
     }
 
     function hideError() {

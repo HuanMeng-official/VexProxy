@@ -74,5 +74,13 @@
   "permissionOccupied": {
     "message": "Permission Occupied",
     "description": "Button text when permission occupied"
+  },
+  "connectionSuccess": {
+    "message": "Connected",
+    "description": "Message when test is successful"
+  },
+  "testFailedReverting": {
+    "message": "Connection failed, reverting settings...",
+    "description": "Message when reverting proxy due to failure"
   }
 }

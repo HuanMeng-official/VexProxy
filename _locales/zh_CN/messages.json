@@ -74,5 +74,13 @@
   "permissionOccupied": {
     "message": "权限被占用",
     "description": "权限被占用时的按钮文本"
+  },
+  "connectionSuccess": {
+    "message": "连接成功",
+    "description": "测试成功时的提示"
+  },
+  "testFailedReverting": {
+    "message": "连接测试失败或超时，正在恢复设置...",
+    "description": "测试失败并回滚时的错误提示"
   }
 }
